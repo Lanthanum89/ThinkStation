@@ -1,0 +1,286 @@
+.device {
+  background: linear-gradient(160deg, var(--case-light), var(--case) 40%, var(--case-dark));
+  border-radius: 22px;
+  padding: 18px 18px 22px;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.5);
+  border: 1px solid #0a0d0e;
+}
+
+.device-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 2px 6px 10px;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: #e7ecec;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.brand-sub {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #8b9494;
+}
+
+.led-strip {
+  display: flex;
+  gap: 3px;
+  padding: 8px 6px;
+  background: var(--case-dark);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.led {
+  flex: 1;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--led-off);
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+.lcd-frame {
+  background: var(--case-dark);
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+}
+
+.lcd-screen {
+  background: linear-gradient(180deg, var(--lcd-bg), var(--lcd-bg-dark));
+  color: var(--lcd-text);
+  font-family: 'Courier New', ui-monospace, monospace;
+  border-radius: 4px;
+  padding: 16px 14px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.15),
+    inset 0 2px 10px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.lcd-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.05) 0px,
+    rgba(0, 0, 0, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  border-radius: 4px;
+}
+
+.screen-title {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--lcd-dim);
+  margin: 0;
+}
+
+.screen-heading {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.screen-timer {
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 4px;
+  margin: 2px 0;
+}
+
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.tile {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(31, 51, 24, 0.08);
+  border: 2px solid var(--lcd-text);
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.tile.tile-lg {
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+}
+
+.tile.tile-used {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+
+.entry-line {
+  background: rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--lcd-dim);
+  border-radius: 3px;
+  padding: 8px 10px;
+  font-size: 18px;
+  font-weight: 700;
+  min-height: 22px;
+  letter-spacing: 2px;
+  word-break: break-all;
+}
+
+.screen-line {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.screen-line.dim {
+  color: var(--lcd-dim);
+}
+
+.screen-line.result-good {
+  color: #1a5c2a;
+  font-weight: 700;
+}
+
+.screen-line.result-bad {
+  color: #8a2a1e;
+  font-weight: 700;
+}
+
+.screen-flex-spacer {
+  flex: 1;
+}
+
+.controls {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-row {
+  display: flex;
+  gap: 8px;
+}
+
+.key {
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #f4f8f6;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition:
+    transform 0.06s,
+    box-shadow 0.06s;
+}
+
+.key:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.key:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.key-green {
+  background: linear-gradient(180deg, var(--btn-green), var(--btn-green-dark));
+}
+.key-blue {
+  background: linear-gradient(180deg, var(--btn-blue), var(--btn-blue-dark));
+}
+.key-amber {
+  background: linear-gradient(180deg, var(--btn-amber), var(--btn-amber-dark));
+}
+.key-grey {
+  background: linear-gradient(180deg, var(--btn-grey), var(--btn-grey-dark));
+}
+
+.key-wide {
+  flex: 2;
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.footer-note {
+  text-align: center;
+  color: #6b7677;
+  font-size: 11px;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.text-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.text-input-row input {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--case-light);
+  background: #0e1213;
+  color: #d7f5df;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.text-input-row input:focus {
+  outline: 2px solid var(--led-green);
+}
