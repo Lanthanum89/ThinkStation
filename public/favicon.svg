@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#1c2b2e"/>
+  <rect x="40" y="40" width="432" height="432" rx="64" fill="#0f3d3a"/>
+  <rect x="72" y="140" width="368" height="180" rx="16" fill="#a8c98a"/>
+  <rect x="72" y="140" width="368" height="180" rx="16" fill="none" stroke="#3c5a2f" stroke-width="6"/>
+  <text x="256" y="220" font-family="Courier New, monospace" font-weight="700" font-size="46" fill="#1f3318" text-anchor="middle">THINK</text>
+  <text x="256" y="282" font-family="Courier New, monospace" font-weight="700" font-size="46" fill="#1f3318" text-anchor="middle">STATION</text>
+  <g fill="#e2b93b">
+    <circle cx="120" cy="370" r="14"/>
+    <circle cx="166" cy="370" r="14"/>
+    <circle cx="212" cy="370" r="14"/>
+    <circle cx="258" cy="370" r="14"/>
+    <circle cx="304" cy="370" r="14"/>
+    <circle cx="350" cy="370" r="14"/>
+    <circle cx="392" cy="370" r="14" fill="#d1553a"/>
+  </g>
+</svg>

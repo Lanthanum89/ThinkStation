@@ -1,0 +1,49 @@
+:root {
+  color-scheme: dark;
+  --case: #23282a;
+  --case-dark: #171b1c;
+  --case-light: #33393b;
+  --lcd-bg: #a9c0a0;
+  --lcd-bg-dark: #96b08c;
+  --lcd-text: #1f3318;
+  --lcd-dim: #4d6a45;
+  --led-off: #2a2f2c;
+  --led-green: #48d16a;
+  --led-amber: #e8b83c;
+  --led-red: #e0503c;
+  --btn-green: #2f7a52;
+  --btn-green-dark: #1f5c3c;
+  --btn-blue: #2d5f8a;
+  --btn-blue-dark: #1e4666;
+  --btn-amber: #b8863a;
+  --btn-amber-dark: #8f6624;
+  --btn-grey: #565f61;
+  --btn-grey-dark: #3c4344;
+
+  font: 16px/1.4 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  background: var(--case-dark);
+  color: #dfe3e0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: radial-gradient(circle at 50% -10%, #2c3436, #0d1011 75%);
+  padding: 24px 12px 48px;
+}
+
+#root {
+  width: 100%;
+  max-width: 460px;
+}
+
+button {
+  font-family: inherit;
+}
