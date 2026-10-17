@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import './App.css'
 import { Menu } from './screens/Menu'
-import { LettersRound } from './screens/LettersRound'
 import { NumbersRound } from './screens/NumbersRound'
-import { ConundrumRound } from './screens/ConundrumRound'
 import { GameOver } from './screens/GameOver'
+
+// Letters and Conundrum pull in the ~1.6 MB dictionary, so keep them out of the initial bundle.
+const LettersRound = lazy(() => import('./screens/LettersRound').then((m) => ({ default: m.LettersRound })))
+const ConundrumRound = lazy(() => import('./screens/ConundrumRound').then((m) => ({ default: m.ConundrumRound })))
 
 type RoundKind = 'letters' | 'numbers' | 'conundrum'
 
@@ -74,9 +76,16 @@ function App() {
   const current = queue[queueIndex]
   const roundLabel = queue.length > 1 ? `Round ${queueIndex + 1} of ${queue.length}` : undefined
 
-  if (current === 'letters') return <LettersRound key={queueIndex} roundLabel={roundLabel} onComplete={handleRoundComplete} />
   if (current === 'numbers') return <NumbersRound key={queueIndex} roundLabel={roundLabel} onComplete={handleRoundComplete} />
-  return <ConundrumRound key={queueIndex} onComplete={handleRoundComplete} />
+  return (
+    <Suspense fallback={<p role="status">Loading…</p>}>
+      {current === 'letters' ? (
+        <LettersRound key={queueIndex} roundLabel={roundLabel} onComplete={handleRoundComplete} />
+      ) : (
+        <ConundrumRound key={queueIndex} onComplete={handleRoundComplete} />
+      )}
+    </Suspense>
+  )
 }
 
 export default App
