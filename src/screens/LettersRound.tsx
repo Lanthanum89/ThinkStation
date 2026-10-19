@@ -68,6 +68,7 @@ export function LettersRound({ roundLabel, onComplete }: LettersRoundProps) {
             maxLength={MAX_LETTERS}
             onChange={(e) => setEntry(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))}
             onKeyDown={(e) => e.key === 'Enter' && submit()}
+            aria-label="Your word"
             placeholder="YOUR WORD"
           />
         </div>
@@ -95,7 +96,7 @@ export function LettersRound({ roundLabel, onComplete }: LettersRoundProps) {
       {phase === 'draw' && (
         <>
           <p className="screen-heading">Pick vowel or consonant</p>
-          <div className="tiles">
+          <div className="tiles" role="group" aria-label={`Letters so far: ${upperLetters.join(' ') || 'none'}`}>
             {upperLetters.map((l, i) => (
               <span key={i} className="tile tile-lg">
                 {l}
@@ -118,7 +119,7 @@ export function LettersRound({ roundLabel, onComplete }: LettersRoundProps) {
               </span>
             ))}
           </div>
-          <p className="screen-timer">{String(remaining).padStart(2, '0')}</p>
+          <p className="screen-timer" role="timer" aria-label="Seconds remaining">{String(remaining).padStart(2, '0')}</p>
           <p className="screen-line dim">Type the longest word you can make</p>
         </>
       )}
@@ -135,7 +136,7 @@ export function LettersRound({ roundLabel, onComplete }: LettersRoundProps) {
           <p className="screen-line">
             You said: <strong>{finalWord.toUpperCase() || '(nothing)'}</strong>
           </p>
-          <p className={`screen-line ${valid ? 'result-good' : 'result-bad'}`}>
+          <p role="status" className={`screen-line ${valid ? 'result-good' : 'result-bad'}`}>
             {finalWord.length === 0
               ? 'No word entered — 0 points'
               : valid

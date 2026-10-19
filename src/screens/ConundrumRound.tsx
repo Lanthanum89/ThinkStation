@@ -41,6 +41,7 @@ export function ConundrumRound({ onComplete }: ConundrumRoundProps) {
             maxLength={9}
             onChange={(e) => setGuess(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))}
             onKeyDown={(e) => e.key === 'Enter' && submit()}
+            aria-label="Your answer"
             placeholder="YOUR ANSWER"
           />
         </div>
@@ -74,7 +75,7 @@ export function ConundrumRound({ onComplete }: ConundrumRoundProps) {
 
       {phase === 'play' && (
         <>
-          <p className="screen-timer">{String(remaining).padStart(2, '0')}</p>
+          <p className="screen-timer" role="timer" aria-label="Seconds remaining">{String(remaining).padStart(2, '0')}</p>
           <p className="screen-line dim">Unscramble the 9-letter word</p>
         </>
       )}
@@ -84,7 +85,7 @@ export function ConundrumRound({ onComplete }: ConundrumRoundProps) {
           <p className="screen-line">
             You said: <strong>{finalGuess || '(nothing)'}</strong>
           </p>
-          <p className={`screen-line ${correct ? 'result-good' : 'result-bad'}`}>
+          <p role="status" className={`screen-line ${correct ? 'result-good' : 'result-bad'}`}>
             {correct ? `Correct! +${score} points` : 'Not quite — 0 points'}
           </p>
           <p className="screen-line dim">Answer: {answer.toUpperCase()}</p>
