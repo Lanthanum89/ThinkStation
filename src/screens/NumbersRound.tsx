@@ -153,7 +153,7 @@ export function NumbersRound({ roundLabel, onComplete }: NumbersRoundProps) {
           <p className="screen-heading" style={{ fontSize: 28, textAlign: 'center' }}>
             {target}
           </p>
-          <p className="screen-timer">{String(remaining).padStart(2, '0')}</p>
+          <p className="screen-timer" role="timer" aria-label="Seconds remaining">{String(remaining).padStart(2, '0')}</p>
           <div className="entry-line">{expr || ' '}</div>
         </>
       )}
@@ -164,7 +164,7 @@ export function NumbersRound({ roundLabel, onComplete }: NumbersRoundProps) {
           <p className="screen-line">
             You entered: <strong>{finalExpr || '(nothing)'}</strong>
           </p>
-          <p className={`screen-line ${score > 0 ? 'result-good' : 'result-bad'}`}>
+          <p role="status" className={`screen-line ${score > 0 ? 'result-good' : 'result-bad'}`}>
             {result === null ? 'Invalid expression — 0 points' : `= ${result}, +${score} points`}
           </p>
           {solverAnswer && (
