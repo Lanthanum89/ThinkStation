@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { playSound } from './sound'
 
 /**
  * Countdown timer in whole seconds. `running` starts/stops the tick;
@@ -22,6 +23,7 @@ export function useCountdown(seconds: number, running: boolean, onExpire?: () =>
       }
       return
     }
+    if (remaining <= 5) playSound('tick')
     const id = setTimeout(() => setRemaining((r) => r - 1), 1000)
     return () => clearTimeout(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps

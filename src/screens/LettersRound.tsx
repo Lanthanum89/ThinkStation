@@ -1,9 +1,11 @@
-import { useMemo, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Device } from '../components/Device'
 import { Key } from '../components/Key'
 import { LetterBag, MAX_LETTERS, scoreWord } from '../game/letters'
 import { findBestWords, isSubsetOfLetters, isValidWord } from '../game/dictionary'
 import { useCountdown } from '../game/useCountdown'
+import { useRoundSeconds } from '../game/settings'
+import { playSound } from '../game/sound'
 
 type Phase = 'draw' | 'play' | 'reveal'
 
@@ -19,7 +21,8 @@ export function LettersRound({ roundLabel, onComplete }: LettersRoundProps) {
   const [entry, setEntry] = useState('')
   const [submitted, setSubmitted] = useState<string | null>(null)
 
-  const remaining = useCountdown(30, phase === 'play', () => {
+  const seconds = useRoundSeconds()
+  const remaining = useCountdown(seconds, phase === 'play', () => {
     setSubmitted((prev) => prev ?? entry)
     setPhase('reveal')
   })
@@ -42,6 +45,11 @@ export function LettersRound({ roundLabel, onComplete }: LettersRoundProps) {
   const finalWord = (submitted ?? '').toLowerCase().replace(/[^a-z]/g, '')
   const valid = finalWord.length >= 4 && isSubsetOfLetters(finalWord, letters.join('')) && isValidWord(finalWord)
   const score = valid ? scoreWord(finalWord) : 0
+
+  useEffect(() => {
+    if (phase === 'reveal') playSound(valid ? 'good' : 'bad')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase])
 
   const upperLetters = letters.map((l) => l.toUpperCase())
   const usedSet = new Set(finalWord.toUpperCase().split(''))
@@ -90,7 +98,7 @@ export function LettersRound({ roundLabel, onComplete }: LettersRoundProps) {
   }
 
   return (
-    <Device ledTotal={30} ledLit={phase === 'play' ? 30 - remaining : phase === 'reveal' ? 0 : 30} controls={controls}>
+    <Device ledTotal={30} ledLit={phase === 'play' ? Math.round((30 * (seconds - remaining)) / seconds) : phase === 'reveal' ? 0 : 30} controls={controls}>
       <p className="screen-title">Letters{roundLabel ? ` — ${roundLabel}` : ''}</p>
 
       {phase === 'draw' && (

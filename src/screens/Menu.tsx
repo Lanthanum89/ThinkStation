@@ -1,5 +1,6 @@
 import { Device } from '../components/Device'
 import { Key } from '../components/Key'
+import { DIFFICULTIES, ROUND_SECONDS, updateSettings, useSettings } from '../game/settings'
 
 interface MenuProps {
   onStartFullGame: () => void
@@ -8,6 +9,8 @@ interface MenuProps {
 }
 
 export function Menu({ onStartFullGame, onPractice, lastScore }: MenuProps) {
+  const { difficulty, soundOn } = useSettings()
+  const nextDifficulty = DIFFICULTIES[(DIFFICULTIES.indexOf(difficulty) + 1) % DIFFICULTIES.length]
   const controls = (
     <>
       <div className="control-row">
@@ -26,6 +29,17 @@ export function Menu({ onStartFullGame, onPractice, lastScore }: MenuProps) {
       <div className="control-row">
         <Key variant="blue" wide onClick={() => onPractice('conundrum')}>
           Conundrum
+        </Key>
+      </div>
+      <div className="control-row">
+        <Key
+          aria-label={`Difficulty: ${difficulty}, ${ROUND_SECONDS[difficulty]} seconds per round. Press to change.`}
+          onClick={() => updateSettings({ difficulty: nextDifficulty })}
+        >
+          {difficulty} · {ROUND_SECONDS[difficulty]}s
+        </Key>
+        <Key aria-pressed={soundOn} onClick={() => updateSettings({ soundOn: !soundOn })}>
+          Sound {soundOn ? 'on' : 'off'}
         </Key>
       </div>
     </>
