@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes } from 'react'
+import { playSound } from '../game/sound'
 
 type Variant = 'green' | 'blue' | 'amber' | 'grey'
 
@@ -7,6 +8,15 @@ interface KeyProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   wide?: boolean
 }
 
-export function Key({ variant = 'grey', wide, className, ...rest }: KeyProps) {
-  return <button className={`key key-${variant} ${wide ? 'key-wide' : ''} ${className ?? ''}`} {...rest} />
+export function Key({ variant = 'grey', wide, className, onClick, ...rest }: KeyProps) {
+  return (
+    <button
+      className={`key key-${variant} ${wide ? 'key-wide' : ''} ${className ?? ''}`}
+      onClick={(e) => {
+        playSound('key')
+        onClick?.(e)
+      }}
+      {...rest}
+    />
+  )
 }

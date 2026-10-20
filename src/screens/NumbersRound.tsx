@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Device } from '../components/Device'
 import { Key } from '../components/Key'
 import {
@@ -11,6 +11,8 @@ import {
   solveNumbers,
 } from '../game/numbers'
 import { useCountdown } from '../game/useCountdown'
+import { useRoundSeconds } from '../game/settings'
+import { playSound } from '../game/sound'
 
 type Phase = 'draw' | 'play' | 'reveal'
 
@@ -46,7 +48,8 @@ export function NumbersRound({ roundLabel, onComplete }: NumbersRoundProps) {
     }
   }
 
-  const remaining = useCountdown(30, phase === 'play', () => {
+  const seconds = useRoundSeconds()
+  const remaining = useCountdown(seconds, phase === 'play', () => {
     setFinalExpr((prev) => prev || expr)
     setPhase('reveal')
   })
@@ -73,6 +76,11 @@ export function NumbersRound({ roundLabel, onComplete }: NumbersRoundProps) {
 
   const result = useMemo(() => (phase === 'reveal' ? evaluateExpression(finalExpr, numbers) : null), [phase, finalExpr, numbers])
   const score = phase === 'reveal' ? scoreNumbers(target, result) : 0
+
+  useEffect(() => {
+    if (phase === 'reveal') playSound(score > 0 ? 'good' : 'bad')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase])
   const solverAnswer = useMemo(() => (phase === 'reveal' ? solveNumbers(numbers, target) : null), [phase, numbers, target])
 
   let controls: ReactNode
@@ -128,7 +136,7 @@ export function NumbersRound({ roundLabel, onComplete }: NumbersRoundProps) {
   }
 
   return (
-    <Device ledTotal={30} ledLit={phase === 'play' ? 30 - remaining : phase === 'reveal' ? 0 : 30} controls={controls}>
+    <Device ledTotal={30} ledLit={phase === 'play' ? Math.round((30 * (seconds - remaining)) / seconds) : phase === 'reveal' ? 0 : 30} controls={controls}>
       <p className="screen-title">Numbers{roundLabel ? ` — ${roundLabel}` : ''}</p>
 
       {phase === 'draw' && (

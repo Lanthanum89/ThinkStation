@@ -1,8 +1,10 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Device } from '../components/Device'
 import { Key } from '../components/Key'
 import { generateConundrum } from '../game/conundrum'
 import { useCountdown } from '../game/useCountdown'
+import { useRoundSeconds } from '../game/settings'
+import { playSound } from '../game/sound'
 
 type Phase = 'play' | 'reveal'
 
@@ -17,7 +19,8 @@ export function ConundrumRound({ onComplete }: ConundrumRoundProps) {
   const [guess, setGuess] = useState('')
   const [finalGuess, setFinalGuess] = useState('')
 
-  const remaining = useCountdown(30, phase === 'play', () => {
+  const seconds = useRoundSeconds()
+  const remaining = useCountdown(seconds, phase === 'play', () => {
     setFinalGuess((prev) => prev || guess)
     setPhase('reveal')
   })
@@ -29,6 +32,11 @@ export function ConundrumRound({ onComplete }: ConundrumRoundProps) {
 
   const correct = finalGuess.toLowerCase() === answer.toLowerCase()
   const score = correct ? 10 : 0
+
+  useEffect(() => {
+    if (phase === 'reveal') playSound(correct ? 'good' : 'bad')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase])
 
   let controls: ReactNode
   if (phase === 'play') {
@@ -63,7 +71,7 @@ export function ConundrumRound({ onComplete }: ConundrumRoundProps) {
   }
 
   return (
-    <Device ledTotal={30} ledLit={phase === 'play' ? 30 - remaining : 0} controls={controls}>
+    <Device ledTotal={30} ledLit={phase === 'play' ? Math.round((30 * (seconds - remaining)) / seconds) : 0} controls={controls}>
       <p className="screen-title">Conundrum</p>
       <div className="tiles">
         {scrambled.split('').map((l, i) => (
